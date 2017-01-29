@@ -1,0 +1,9 @@
+{
+    "name": "FireCMP",
+    "root": "lib/",
+    "main": "./index.js",
+    "files": [
+    ],
+    "outfile": "../firecmp.js",
+    "umd": "FireCMP"
+}
