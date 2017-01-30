@@ -25,7 +25,7 @@
 import Core from './core';
 
 export default class Button extends Core {
-  get type() {
+  get tag() {
     return 'button';
   }
 
@@ -35,6 +35,10 @@ export default class Button extends Core {
 
   set enabled(value) {
     this.domEl.enabled = !!value;
+  }
+
+  tmpl(data) {
+    return data.text;
   }
 
   $click(fn) {

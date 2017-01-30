@@ -61,6 +61,7 @@ export default class Core {
     }
 
     this.domEl.className = cssClass;
+    this.init(data);
     this.render(data);
     if (this.onElementReady) {
       this.onElementReady();
@@ -94,6 +95,16 @@ export default class Core {
       this.domEl.innerHTML = html;
     }
 
+    return this;
+  }
+
+  /**
+   * Called once Component has been created, but before it gets rendered
+   *
+   * @method init
+   * @chainable
+   */
+  init() {
     return this;
   }
 
@@ -238,5 +249,9 @@ export default class Core {
     }
 
     return this;
+  }
+
+  listen(event, fn) {
+    this.domEl.addEventListener(event, fn);
   }
 }

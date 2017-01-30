@@ -25,4 +25,14 @@ export default class Counter extends Core {
     this.__value = val;
     this.domEl.textContent = val;
   }
+
+  tmpl(data) {
+    return data && data.value ? parseInt(data.value) : 0;
+  }
+
+  init(data) {
+    super.init(data);
+    this.__value = data && data.value ? parseInt(data.value) : 0;
+    return this;
+  }
 }

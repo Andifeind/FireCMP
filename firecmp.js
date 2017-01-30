@@ -107,7 +107,11 @@ require.register('./index.js', function(module, exports, require) { 'use strict'
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Password = exports.List = exports.Input = exports.Counter = exports.Core = undefined;
+exports.Password = exports.List = exports.Input = exports.Counter = exports.Core = exports.Button = undefined;
+
+var _button = require('./components/button');
+
+var _button2 = _interopRequireDefault(_button);
 
 var _core = require('./components/core');
 
@@ -131,11 +135,98 @@ var _list2 = _interopRequireDefault(_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.Button = _button2.default;
 exports.Core = _core2.default;
 exports.Counter = _counter2.default;
 exports.Input = _input2.default;
 exports.List = _list2.default;
 exports.Password = _inputPassword2.default;
+});
+require.register('./components/button.js', function(module, exports, require) { 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = require('./core');
+
+var _core2 = _interopRequireDefault(_core);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Button Component
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Renders a button
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Expects:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * ```js
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *   text: 'Button text' // the button text
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *   type: 'submit' // button type, defaults to `button`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @example {js}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * const cmp = new Button({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *   text: 'Submit form'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * cmp.appendTo('.content');
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @example {html} Output:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * <button type="button">Submit form</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var Button = function (_Core) {
+  _inherits(Button, _Core);
+
+  function Button() {
+    _classCallCheck(this, Button);
+
+    return _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).apply(this, arguments));
+  }
+
+  _createClass(Button, [{
+    key: 'tmpl',
+    value: function tmpl(data) {
+      return data.text;
+    }
+  }, {
+    key: '$click',
+    value: function $click(fn) {
+      this.listen('click', function (ev) {
+        fn({
+          name: ev.target.name,
+          form: ev.target.form
+        }, ev);
+      });
+    }
+  }, {
+    key: 'tag',
+    get: function get() {
+      return 'button';
+    }
+  }, {
+    key: 'enabled',
+    get: function get() {
+      return this.domEl.enabled;
+    },
+    set: function set(value) {
+      this.domEl.enabled = !!value;
+    }
+  }]);
+
+  return Button;
+}(_core2.default);
+
+exports.default = Button;
 });
 require.register('./components/core.js', function(module, exports, require) { 'use strict';
 
@@ -213,6 +304,7 @@ var Core = function () {
       }
 
       this.domEl.className = cssClass;
+      this.init(data);
       this.render(data);
       if (this.onElementReady) {
         this.onElementReady();
@@ -249,6 +341,19 @@ var Core = function () {
         this.domEl.innerHTML = html;
       }
 
+      return this;
+    }
+
+    /**
+     * Called once Component has been created, but before it gets rendered
+     *
+     * @method init
+     * @chainable
+     */
+
+  }, {
+    key: 'init',
+    value: function init() {
       return this;
     }
 
@@ -417,6 +522,11 @@ var Core = function () {
       return this;
     }
   }, {
+    key: 'listen',
+    value: function listen(event, fn) {
+      this.domEl.addEventListener(event, fn);
+    }
+  }, {
     key: 'tag',
     get: function get() {
       return 'section';
@@ -478,6 +588,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _core = require('./core');
 
 var _core2 = _interopRequireDefault(_core);
@@ -512,6 +624,18 @@ var Counter = function (_Core) {
   }
 
   _createClass(Counter, [{
+    key: 'tmpl',
+    value: function tmpl(data) {
+      return data && data.value ? parseInt(data.value) : 0;
+    }
+  }, {
+    key: 'init',
+    value: function init(data) {
+      _get(Counter.prototype.__proto__ || Object.getPrototypeOf(Counter.prototype), 'init', this).call(this, data);
+      this.__value = data && data.value ? parseInt(data.value) : 0;
+      return this;
+    }
+  }, {
     key: 'tag',
     get: function get() {
       return 'span';
