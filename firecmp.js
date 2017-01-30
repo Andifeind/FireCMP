@@ -107,11 +107,15 @@ require.register('./index.js', function(module, exports, require) { 'use strict'
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Password = exports.List = exports.Input = exports.Core = undefined;
+exports.Password = exports.List = exports.Input = exports.Counter = exports.Core = undefined;
 
 var _core = require('./components/core');
 
 var _core2 = _interopRequireDefault(_core);
+
+var _counter = require('./components/counter');
+
+var _counter2 = _interopRequireDefault(_counter);
 
 var _input = require('./components/input');
 
@@ -128,6 +132,7 @@ var _list2 = _interopRequireDefault(_list);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Core = _core2.default;
+exports.Counter = _counter2.default;
 exports.Input = _input2.default;
 exports.List = _list2.default;
 exports.Password = _inputPassword2.default;
@@ -464,6 +469,68 @@ var Utils = function () {
 }();
 
 exports.default = Utils;
+});
+require.register('./components/counter.js', function(module, exports, require) { 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = require('./core');
+
+var _core2 = _interopRequireDefault(_core);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Counter Component
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Renders a counter element
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @example {js}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * const counter = new Counter({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *   value: 2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * // change value
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * counter.value = 3;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+var Counter = function (_Core) {
+  _inherits(Counter, _Core);
+
+  function Counter() {
+    _classCallCheck(this, Counter);
+
+    return _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).apply(this, arguments));
+  }
+
+  _createClass(Counter, [{
+    key: 'tag',
+    get: function get() {
+      return 'span';
+    }
+  }, {
+    key: 'value',
+    get: function get() {
+      return this.__value;
+    },
+    set: function set(val) {
+      this.__value = val;
+      this.domEl.textContent = val;
+    }
+  }]);
+
+  return Counter;
+}(_core2.default);
+
+exports.default = Counter;
 });
 require.register('./components/input.js', function(module, exports, require) { 'use strict';
 
