@@ -38,6 +38,10 @@ export default class Button extends Core {
   }
 
   tmpl(data) {
+    if (data.type) {
+      this.domEl.setAttribute('type', data.type);
+    }
+    
     return data.text;
   }
 

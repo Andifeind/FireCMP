@@ -1,9 +1,8 @@
 import Utils from '../utils';
 
 export default class Core {
-  constructor(data, name) {
+  constructor(data) {
     this.__active = true;
-    this.name = name;
 
     this.create(data);
   }

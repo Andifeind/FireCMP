@@ -107,7 +107,7 @@ require.register('./index.js', function(module, exports, require) { 'use strict'
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Password = exports.List = exports.Input = exports.Counter = exports.Core = exports.Button = undefined;
+exports.Text = exports.Password = exports.List = exports.Input = exports.Form = exports.Counter = exports.Core = exports.Button = undefined;
 
 var _button = require('./components/button');
 
@@ -121,26 +121,36 @@ var _counter = require('./components/counter');
 
 var _counter2 = _interopRequireDefault(_counter);
 
+var _form = require('./components/form');
+
+var _form2 = _interopRequireDefault(_form);
+
 var _input = require('./components/input');
 
 var _input2 = _interopRequireDefault(_input);
+
+var _list = require('./components/list');
+
+var _list2 = _interopRequireDefault(_list);
 
 var _inputPassword = require('./components/input-password');
 
 var _inputPassword2 = _interopRequireDefault(_inputPassword);
 
-var _list = require('./components/list');
+var _inputText = require('./components/input-text');
 
-var _list2 = _interopRequireDefault(_list);
+var _inputText2 = _interopRequireDefault(_inputText);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Button = _button2.default;
 exports.Core = _core2.default;
 exports.Counter = _counter2.default;
+exports.Form = _form2.default;
 exports.Input = _input2.default;
 exports.List = _list2.default;
 exports.Password = _inputPassword2.default;
+exports.Text = _inputText2.default;
 });
 require.register('./components/button.js', function(module, exports, require) { 'use strict';
 
@@ -196,6 +206,10 @@ var Button = function (_Core) {
   _createClass(Button, [{
     key: 'tmpl',
     value: function tmpl(data) {
+      if (data.type) {
+        this.domEl.setAttribute('type', data.type);
+      }
+
       return data.text;
     }
   }, {
@@ -247,11 +261,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Core = function () {
-  function Core(data, name) {
+  function Core(data) {
     _classCallCheck(this, Core);
 
     this.__active = true;
-    this.name = name;
 
     this.create(data);
   }
@@ -656,6 +669,172 @@ var Counter = function (_Core) {
 
 exports.default = Counter;
 });
+require.register('./components/form.js', function(module, exports, require) { 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _button = require('./button');
+
+var _button2 = _interopRequireDefault(_button);
+
+var _core = require('./core');
+
+var _core2 = _interopRequireDefault(_core);
+
+var _input = require('./input');
+
+var _input2 = _interopRequireDefault(_input);
+
+var _inputPassword = require('./input-password');
+
+var _inputPassword2 = _interopRequireDefault(_inputPassword);
+
+var _inputText = require('./input-text');
+
+var _inputText2 = _interopRequireDefault(_inputText);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Form component renders a form based on a FormSchema
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * FormSchema:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * { name: 'title', type: 'string', min: 3, max: 20 },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * { name: 'description', type: 'text', min: 3, max: 2000 },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * { name: 'category', type: 'category', min: 3, max: 200 },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * { name: 'timer', type: 'string', min: 3, max: 200, multiple: true },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var Form = function (_Core) {
+  _inherits(Form, _Core);
+
+  function Form() {
+    _classCallCheck(this, Form);
+
+    return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).apply(this, arguments));
+  }
+
+  _createClass(Form, [{
+    key: 'render',
+    value: function render(data) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = data.schema[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var item = _step.value;
+
+          var CmpConstuctor = this.getConstructor(item.type);
+          var cmp = new CmpConstuctor(item);
+          cmp.value = data.data[item.name] || '';
+          cmp.appendTo(this.domEl);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'getConstructor',
+    value: function getConstructor(type) {
+      if (type === 'string') {
+        return _input2.default;
+      }
+
+      if (type === 'text') {
+        return _inputText2.default;
+      }
+
+      if (type === 'password') {
+        return _inputPassword2.default;
+      }
+
+      if (type === 'button' || type === 'submit') {
+        return _button2.default;
+      }
+    }
+  }, {
+    key: 'getData',
+    value: function getData() {
+      var data = {};
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = this.domEl.elements[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var el = _step2.value;
+
+          if (!el.name) {
+            continue;
+          }
+
+          data[el.name] = el.value;
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      return data;
+    }
+  }, {
+    key: '$submit',
+    value: function $submit(fn) {
+      var _this2 = this;
+
+      this.listen('submit', function (ev) {
+        ev.preventDefault();
+        fn(_this2.getData(), ev);
+      });
+    }
+  }, {
+    key: 'tag',
+    get: function get() {
+      return {
+        tag: 'form',
+        attrs: {
+          action: ''
+        }
+      };
+    }
+  }]);
+
+  return Form;
+}(_core2.default);
+
+exports.default = Form;
+});
 require.register('./components/input.js', function(module, exports, require) { 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -688,15 +867,15 @@ var Input = function (_Core) {
   _createClass(Input, [{
     key: 'tmpl',
     value: function tmpl(data) {
-      var id = 'firecmp-input-' + this.name;
+      var id = 'firecmp-input-' + data.name;
       this.labelEl = document.createElement('label');
       this.labelEl.setAttribute('id', id);
 
       this.inputEl = document.createElement('input');
       this.inputEl.setAttribute('type', this.type);
-      this.inputEl.setAttribute('name', this.name);
+      this.inputEl.setAttribute('name', data.name);
       this.inputEl.setAttribute('for', id);
-      this.inputEl.value = data;
+      this.inputEl.value = data.value;
 
       var docFrag = document.createDocumentFragment();
       docFrag.appendChild(this.labelEl);
@@ -731,6 +910,14 @@ var Input = function (_Core) {
     key: 'type',
     get: function get() {
       return 'text';
+    }
+  }, {
+    key: 'value',
+    set: function set(val) {
+      this.inputEl.value = val;
+    },
+    get: function get() {
+      return this.inputEl.value;
     }
   }]);
 
@@ -779,6 +966,91 @@ var Password = function (_Input) {
 }(_input2.default);
 
 exports.default = Password;
+});
+require.register('./components/input-text.js', function(module, exports, require) { 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = require('./core');
+
+var _core2 = _interopRequireDefault(_core);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Input = function (_Core) {
+  _inherits(Input, _Core);
+
+  function Input() {
+    _classCallCheck(this, Input);
+
+    return _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).apply(this, arguments));
+  }
+
+  _createClass(Input, [{
+    key: 'tmpl',
+    value: function tmpl(data) {
+      var id = 'firecmp-input-' + data.name;
+      this.labelEl = document.createElement('label');
+      this.labelEl.setAttribute('id', id);
+
+      this.inputEl = document.createElement('textarea');
+      this.inputEl.setAttribute('name', data.name);
+      this.inputEl.setAttribute('for', id);
+      this.inputEl.value = data.value;
+
+      var docFrag = document.createDocumentFragment();
+      docFrag.appendChild(this.labelEl);
+      docFrag.appendChild(this.inputEl);
+      return docFrag;
+    }
+
+    /**
+     * Listen on value changes
+     *
+     * @method $change
+     *
+     * @param {function} fn Event handler
+     */
+
+  }, {
+    key: '$change',
+    value: function $change(fn) {
+      this.inputEl.addEventListener('change', function (ev) {
+        fn({
+          name: ev.currentTarget.name,
+          value: ev.currentTarget.value
+        }, ev);
+      });
+    }
+  }, {
+    key: 'label',
+    set: function set(value) {
+      this.labelEl.textContent = value;
+    }
+  }, {
+    key: 'value',
+    set: function set(val) {
+      this.inputEl.value = val;
+    },
+    get: function get() {
+      return this.inputEl.value;
+    }
+  }]);
+
+  return Input;
+}(_core2.default);
+
+exports.default = Input;
 });
 require.register('./components/list.js', function(module, exports, require) { 'use strict';
 
@@ -832,6 +1104,34 @@ var List = function (_Core) {
     key: 'push',
     value: function push(data) {
       this.append(this.item(data));
+    }
+  }, {
+    key: 'pushMany',
+    value: function pushMany(dataArr) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = dataArr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var data = _step.value;
+
+          this.push(data);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
     }
   }, {
     key: 'tag',

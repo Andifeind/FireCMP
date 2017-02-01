@@ -5,10 +5,6 @@ export default class Input extends Core {
     this.labelEl.textContent = value;
   }
 
-  get type() {
-    return 'text';
-  }
-
   set value(val) {
     this.inputEl.value = val;
   }
@@ -22,8 +18,7 @@ export default class Input extends Core {
     this.labelEl = document.createElement('label');
     this.labelEl.setAttribute('id', id);
 
-    this.inputEl = document.createElement('input');
-    this.inputEl.setAttribute('type', this.type);
+    this.inputEl = document.createElement('textarea');
     this.inputEl.setAttribute('name', data.name);
     this.inputEl.setAttribute('for', id);
     this.inputEl.value = data.value;
