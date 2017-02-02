@@ -81,7 +81,7 @@ export default class Core {
   render(data) {
     var html = '';
     if (this.tmpl) {
-      html = this.tmpl(data);
+      html = this.tmpl(data || {});
     }
 
     if (typeof html === 'object') {

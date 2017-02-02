@@ -5,6 +5,7 @@ import Form from './components/form';
 import Input from './components/input';
 import List from './components/list';
 import Password from './components/input-password';
+import ProgressBar from './components/progress-bar';
 import Text from './components/input-text';
 
 export {
@@ -15,5 +16,6 @@ export {
   Input,
   List,
   Password,
+  ProgressBar,
   Text
 };
