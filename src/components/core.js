@@ -4,7 +4,7 @@ export default class Core {
   constructor(data) {
     this.__active = true;
 
-    this.create(data);
+    this.create(data || {});
   }
 
   /**
@@ -81,7 +81,7 @@ export default class Core {
   render(data) {
     var html = '';
     if (this.tmpl) {
-      html = this.tmpl(data || {});
+      html = this.tmpl(data);
     }
 
     if (typeof html === 'object') {
@@ -114,7 +114,7 @@ export default class Core {
    * @returns {string} Returns the parsed inner html of a component
    */
   tmpl(data) {
-    return String(data);
+    return String(data.text);
   }
 
   /**
@@ -129,6 +129,44 @@ export default class Core {
     }
 
     container.appendChild(this.domEl);
+    return this;
+  }
+
+  /**
+   * Prepend CMP to an existing DOM element
+   *
+   * @method prependTo
+   * @chainable
+   */
+  prependTo(container) {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+
+    if (container.firstChild) {
+      container.insertBefore(this.domEl, container.firstChild);
+    } else {
+      container.appendChild(this.domEl);
+    }
+    return this;
+  }
+
+  /**
+   * Replace all childs with CMP
+   *
+   * @method replaceAll
+   * @chainable
+   */
+  replaceAll(container) {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    this.appendTo(container);
     return this;
   }
 

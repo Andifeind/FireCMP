@@ -18,18 +18,22 @@ export default class Input extends Core {
   }
 
   tmpl(data) {
+    this.name = data.name;
     const id = `firecmp-input-${data.name}`;
-    this.labelEl = document.createElement('label');
-    this.labelEl.setAttribute('id', id);
+    const docFrag = document.createDocumentFragment();
+    if (data.label) {
+      this.labelEl = document.createElement('label');
+      this.labelEl.setAttribute('for', id);
+      this.labelEl.innerHTML = data.label;
+      docFrag.appendChild(this.labelEl);
+    }
 
     this.inputEl = document.createElement('input');
     this.inputEl.setAttribute('type', this.type);
     this.inputEl.setAttribute('name', data.name);
-    this.inputEl.setAttribute('for', id);
-    this.inputEl.value = data.value;
+    this.inputEl.setAttribute('id', id);
+    this.value = data.value;
 
-    const docFrag = document.createDocumentFragment();
-    docFrag.appendChild(this.labelEl);
     docFrag.appendChild(this.inputEl);
     return docFrag;
   }
@@ -42,10 +46,10 @@ export default class Input extends Core {
    * @param {function} fn Event handler
    */
   $change(fn) {
-    this.inputEl.addEventListener('change', (ev) => {
+    this.listen('change', (ev) => {
       fn({
-        name: ev.currentTarget.name,
-        value: ev.currentTarget.value
+        name: this.name,
+        value: this.value
       }, ev);
     });
   }

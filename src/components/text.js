@@ -1,6 +1,6 @@
-import Core from './core';
+import Input from './input';
 
-export default class Input extends Core {
+export default class Text extends Input {
   set label(value) {
     this.labelEl.textContent = value;
   }
