@@ -1,6 +1,6 @@
 {
   "name": "firecmp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Web-components using FireTPL",
   "main": "lib/index.js",
   "scripts": {
