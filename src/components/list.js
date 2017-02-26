@@ -24,6 +24,10 @@ export default class List extends Core {
     this.append(this.item(data));
   }
 
+  unshift(data) {
+    this.prepend(this.item(data));
+  }
+
   pushMany(dataArr) {
     for (const data of dataArr) {
       this.push(data);

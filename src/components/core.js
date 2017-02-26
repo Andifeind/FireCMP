@@ -288,6 +288,51 @@ export default class Core {
     return this;
   }
 
+  /**
+   * Prepend one or multiple elements to the Component
+   *
+   * @method prepend
+   * @param  {Object|Array|String} el Elements to been prepend
+   *
+   * @chainable
+   * @return {Object}    Returns this value
+   */
+  prepend(el) {
+    var i;
+
+    const domPrepend = (parent, child) => {
+      if (parent.firstChild) {
+        parent.insertBefore(child, parent.firstChild);
+      } else {
+        parent.appendChild(child);
+      }
+    }
+
+    if (Array.isArray(el)) {
+      for (i = 0; i < el.length; i++) {
+        domPrepend(this.domEl, el[i].domEl);
+      }
+
+      return;
+    }
+    else if (typeof el === 'string') {
+      var docFrac = document.createDocumentFragment();
+      var elType = /^<tr/.test(el) ? 'table' : 'div';
+      var div = document.createElement(elType);
+      div.innerHTML = el;
+      for (i = 0; i < div.children.length; i++) {
+        domPrepend(docFrac, div.children[i]);
+      }
+
+      domPrepend(this.domEl, docFrac);
+    }
+    else {
+      domPrepend(this.domEl, el.domEl);
+    }
+
+    return this;
+  }
+
   listen(event, fn) {
     this.domEl.addEventListener(event, fn);
   }
